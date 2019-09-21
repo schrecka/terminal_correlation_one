@@ -75,6 +75,8 @@ class AlgoStrategy(gamelib.AlgoCore):
         For offense we will use long range EMPs if they place stationary units near the enemy's front.
         If there are no stationary units to attack in the front, we will send Pings to try and score quickly.
         """
+        # spawn on side of the v
+        self.ping_overload_strategy(game_state)
         # First, place basic defenses
         self.build_defences(game_state)
         # Now build reactive defenses based on where the enemy scored
@@ -153,6 +155,12 @@ class AlgoStrategy(gamelib.AlgoCore):
             We don't have to remove the location since multiple information 
             units can occupy the same space.
             """
+    def ping_overload_strategy(self, game_state):
+        """
+        Spam a bunch of pings through our encryptors whenever we have enough bits
+        """
+        if game_state.BITS >= 10:
+            game_state.attempt_spawn(PING, [13, 0], 1000)
 
     def emp_line_strategy(self, game_state):
         """
