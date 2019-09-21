@@ -81,27 +81,11 @@ class AlgoStrategy(gamelib.AlgoCore):
         # self.build_reactive_defense(game_state)
 
         # If the turn is less than 5, stall with Scramblers and wait to see enemy's base
-        if game_state.turn_number < 5 and game_state.turn_number > 1:
-            self.corner_scramblers(game_state)
-            # self.stall_with_scramblers(game_state)
-        else:
-            # Now let's analyze the enemy base to see where their defenses are concentrated.
-            # If they have many units in the front we can build a line for our EMPs to attack them at long range.
-            # They don't have many units in the front so lets figure out their least defended area and send Pings there.
-
-            # Only spawn Ping's every other turn
-            # Sending more at once is better since attacks can only hit a single ping at a time
-            game_state.attempt_spawn(SCRAMBLER, [16, 2], 2)
-            game_state.attempt_spawn(PING, [13, 0], 1000)
-            # if game_state.turn_number % 2 == 1:
-            #     # To simplify we will just check sending them from back left and right
-            #     ping_spawn_location_options = [[13, 0], [14, 0]]
-            #     best_location = self.least_damage_spawn_location(game_state, ping_spawn_location_options)
-            #     game_state.attempt_spawn(PING, best_location, 1000)
-
-            #     # Lastly, if we have spare cores, let's build some Encryptors to boost our Pings' health.
-            #     encryptor_locations = [[13, 2], [14, 2], [13, 3], [14, 3]]
-            #     game_state.attempt_spawn(ENCRYPTOR, encryptor_locations)
+        game_state.attempt_spawn(SCRAMBLER, [16, 2], 2)
+        gamelib.debug_write(f'turn number: {game_state.turn_number}')
+        if (game_state.turn_number % 3) == 0:
+            gamelib.debug_write(f'game_state.turn_number % 2: {game_state.turn_number % 2}')
+            game_state.attempt_spawn(PING, [10, 3], 1000)
 
     def build_defences(self, game_state):
         """
@@ -117,6 +101,9 @@ class AlgoStrategy(gamelib.AlgoCore):
         # filters_points_4 = [[10, 6], [11, 6], [12, 6], [15, 6], [16, 6], [17, 6]]
         encryptors_points_5 = [[10, 4], [11, 4], [12, 4], [17, 4], [12, 3], [13, 3], [14, 3], [15, 3], [17, 3], [13, 2], [14, 2], [13, 0], [14, 0]]
         destructors_points_6 = [[10, 5], [11, 5], [12, 5], [15, 5], [16, 5], [17, 5]]
+
+        encryptors_points_7 = [[13, 9], [13, 8], [13, 7], [13, 6], [13, 5], [13, 4]]
+        destructors_points_8 = [[2, 12], [25, 12], [3, 11], [24, 11], [4, 10], [23, 10]]
 
         for f in filters_points_1:
             game_state.attempt_spawn(FILTER, f)
@@ -134,6 +121,12 @@ class AlgoStrategy(gamelib.AlgoCore):
             game_state.attempt_spawn(ENCRYPTOR, e)
 
         for d in destructors_points_6:
+            game_state.attempt_spawn(DESTRUCTOR, d)
+
+        for e in encryptors_points_7:
+            game_state.attempt_spawn(ENCRYPTOR, e)
+
+        for d in destructors_points_8:
             game_state.attempt_spawn(DESTRUCTOR, d)
 
     def build_reactive_defense(self, game_state):
