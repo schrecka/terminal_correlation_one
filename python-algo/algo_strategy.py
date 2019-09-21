@@ -81,7 +81,9 @@ class AlgoStrategy(gamelib.AlgoCore):
         # self.build_reactive_defense(game_state)
 
         # If the turn is less than 5, stall with Scramblers and wait to see enemy's base
-        game_state.attempt_spawn(SCRAMBLER, [16, 2], 2)
+        if game_state.turn_number > 1:
+            game_state.attempt_spawn(SCRAMBLER, [16, 2], 1)
+            game_state.attempt_spawn(SCRAMBLER, [12, 1], 1)
         gamelib.debug_write(f'turn number: {game_state.turn_number}')
         if (game_state.turn_number % 3) == 0:
             gamelib.debug_write(f'game_state.turn_number % 2: {game_state.turn_number % 2}')
@@ -95,13 +97,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         # Useful tool for setting up your base locations: https://www.kevinbai.design/terminal-map-maker
         # More community tools available at: https://terminal.c1games.com/rules#Download
         filters_points_1 = [[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [3, 12], [24, 12], [4, 11], [23, 11], [5, 10], [22, 10], [6, 9]]
-        filters_points_2 = [[21, 9], [7, 8], [20, 8], [8, 7], [19, 7], [9, 6], [18, 6]]
+        filters_points_2 = [[21, 9], [7, 8], [20, 8], [8, 7], [19, 7]]
+        destructor_points_2 = [[9, 6], [18, 6], [25, 12], [1, 12]]
         destructors_points_3 = [[10, 7], [11, 7], [12, 7], [15, 7], [16, 7], [17, 7], [10, 6], [11, 6], [12, 6], [15, 6], [16, 6], [17, 6]]
         destructors_points_4 = [[11, 9], [12, 9], [15, 9], [16, 9], [10, 8], [11, 8], [12, 8], [15, 8], [16, 8], [17, 8]]
         # filters_points_4 = [[10, 6], [11, 6], [12, 6], [15, 6], [16, 6], [17, 6]]
         encryptors_points_5 = [[10, 4], [11, 4], [12, 4], [17, 4], [12, 3], [13, 3], [14, 3], [15, 3], [17, 3], [13, 2], [14, 2], [13, 0], [14, 0]]
         destructors_points_6 = [[10, 5], [11, 5], [12, 5], [15, 5], [16, 5], [17, 5]]
 
+        destructors_points_7_5 = [[2, 12], [26, 12], [2, 11], [25, 11], [24, 11]]
         encryptors_points_7 = [[13, 9], [13, 8], [13, 7], [13, 6], [13, 5], [13, 4]]
         destructors_points_8 = [[2, 12], [25, 12], [3, 11], [24, 11], [4, 10], [23, 10]]
 
@@ -110,6 +114,9 @@ class AlgoStrategy(gamelib.AlgoCore):
         
         for f in filters_points_2:
             game_state.attempt_spawn(FILTER, f)
+
+        for d in destructor_points_2:
+            game_state.attempt_spawn(DESTRUCTOR, d)
 
         for d in destructors_points_3:
             game_state.attempt_spawn(DESTRUCTOR, d)
@@ -121,6 +128,9 @@ class AlgoStrategy(gamelib.AlgoCore):
             game_state.attempt_spawn(ENCRYPTOR, e)
 
         for d in destructors_points_6:
+            game_state.attempt_spawn(DESTRUCTOR, d)
+
+        for d in destructors_points_7_5:
             game_state.attempt_spawn(DESTRUCTOR, d)
 
         for e in encryptors_points_7:
