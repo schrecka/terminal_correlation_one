@@ -1,3 +1,5 @@
+Submission for the Citadel C1 Terminal Competition by Adam Schreck, Richard Guan, and Chintan Ajmera
+
 # C1GamesStarterKit
 
 Welcome to the C1 Terminal Starter Kit! The repository contains a collection of scripts and 
