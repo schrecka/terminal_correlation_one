@@ -1,4 +1,8 @@
-Submission for the Citadel C1 Terminal Competition by Adam Schreck, Richard Guan, and Chintan Ajmera
+Submission for the Citadel C1 Terminal Competition by Adam Schreck, Richard Guan, and Chintan Ajmera.  Starter kit from Correlation One is below.
+
+
+
+
 
 # C1GamesStarterKit
 
